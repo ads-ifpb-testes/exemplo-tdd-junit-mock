@@ -6,13 +6,23 @@ import java.util.List;
 public class CarrinhoCompras {
 
     private List<Produto> produtos;
+    private Estoque estoque;
 
     public CarrinhoCompras() {
         this.produtos = new LinkedList<Produto>();
+        this.estoque = new Estoque();
     }
 
-    public void adicionarItem(Produto produto) {
-        this.produtos.add(produto);
+    public CarrinhoCompras(Estoque estoque) {
+        this.produtos = new LinkedList<Produto>();
+        this.estoque = estoque;
+    }
+
+    public void adicionarItem(Produto produto) throws ForaEstoqueException {
+        if (estoque.temNoEstoque(produto))
+            this.produtos.add(produto);
+        else
+            throw new ForaEstoqueException("Produto fora de estoque");
     }
 
     public int getQuantidade() {
